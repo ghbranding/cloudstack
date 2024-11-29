@@ -88,6 +88,7 @@ import org.apache.cloudstack.storage.command.ResignatureCommand;
 import org.apache.cloudstack.storage.command.SnapshotAndCopyAnswer;
 import org.apache.cloudstack.storage.command.SnapshotAndCopyCommand;
 import org.apache.cloudstack.storage.command.SyncVolumePathCommand;
+import org.apache.cloudstack.storage.formatinspector.Qcow2Inspector;
 import org.apache.cloudstack.storage.to.PrimaryDataStoreTO;
 import org.apache.cloudstack.storage.to.SnapshotObjectTO;
 import org.apache.cloudstack.storage.to.TemplateObjectTO;
@@ -119,6 +120,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -1112,11 +1114,12 @@ public class KVMStorageProcessor implements StorageProcessor {
                 storagePool = storagePoolMgr.getStoragePoolByURI(path);
             }
             final KVMPhysicalDisk isoVol = storagePool.getPhysicalDisk(name);
+            final DiskDef.DiskType isoDiskType = LibvirtComputingResource.getDiskType(isoVol);
             isoPath = isoVol.getPath();
 
-            iso.defISODisk(isoPath, isUefiEnabled);
+            iso.defISODisk(isoPath, isUefiEnabled, isoDiskType);
         } else {
-            iso.defISODisk(null, isUefiEnabled);
+            iso.defISODisk(null, isUefiEnabled, DiskDef.DiskType.FILE);
         }
 
         final List<DiskDef> disks = resource.getDisks(conn, vmName);
@@ -1444,7 +1447,7 @@ public class KVMStorageProcessor implements StorageProcessor {
                     diskdef.defFileBasedDisk(attachingDisk.getPath(), devId, busT, DiskDef.DiskFmtType.QCOW2);
                 } else if (attachingDisk.getFormat() == PhysicalDiskFormat.RAW) {
                     diskdef.defBlockBasedDisk(attachingDisk.getPath(), devId, busT);
-                    if (attachingPool.getType() == StoragePoolType.Linstor) {
+                    if (attachingPool.getType() == StoragePoolType.Linstor && resource.isQemuDiscardBugFree(busT)) {
                         diskdef.setDiscard(DiscardType.UNMAP);
                     }
                 }
@@ -2445,6 +2448,22 @@ public class KVMStorageProcessor implements StorageProcessor {
             }
 
             template = storagePoolMgr.createPhysicalDiskFromDirectDownloadTemplate(tempFilePath, destTemplatePath, destPool, cmd.getFormat(), cmd.getWaitInMillSeconds());
+
+            String templatePath = template.getPath();
+            if (templatePath != null) {
+                try {
+                    Qcow2Inspector.validateQcow2File(templatePath);
+                } catch (RuntimeException e) {
+                    try {
+                        Files.deleteIfExists(Path.of(templatePath));
+                    } catch (IOException ioException) {
+                        s_logger.warn(String.format("Unable to remove file [%s]; consider removing it manually.", templatePath), ioException);
+                    }
+
+                    s_logger.error(String.format("The downloaded file [%s] is not a valid QCOW2.", templatePath), e);
+                    return new DirectDownloadAnswer(false, "The downloaded file is not a valid QCOW2. Ask the administrator to check the logs for more details.", true);
+                }
+            }
 
             if (!storagePoolMgr.disconnectPhysicalDisk(pool.getPoolType(), pool.getUuid(), destTemplatePath)) {
                 s_logger.warn("Unable to disconnect physical disk at path: " + destTemplatePath + ", in storage pool id: " + pool.getUuid());
