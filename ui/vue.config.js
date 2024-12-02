@@ -23,7 +23,7 @@ const version = JSON.parse(packageJson).version || 'main'
 const createThemeColorReplacerPlugin = require('./theme.config')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
-function resolve(dir) {
+function resolve (dir) {
   return path.join(__dirname, dir)
 }
 
@@ -51,9 +51,9 @@ const vueConfig = {
       new webpack.IgnorePlugin(/@antv\/g2/),
       new webpack.DefinePlugin({
         'process.env': {
-          PACKAGE_VERSION: '"' + version + '"',
-        },
-      }),
+          PACKAGE_VERSION: '"' + version + '"'
+        }
+      })
     ],
     optimization: {
       minimizer: [
@@ -63,21 +63,21 @@ const vueConfig = {
           uglifyOptions: {
             compress: false,
             ecma: 6,
-            mangle: true,
+            mangle: true
           },
-          sourceMap: true,
-        }),
+          sourceMap: true
+        })
       ],
       splitChunks: {
         cacheGroups: {
           commons: {
             test: /[\\/]node_modules[\\/]/,
             name: 'vendors',
-            chunks: 'all',
-          },
-        },
-      },
-    },
+            chunks: 'all'
+          }
+        }
+      }
+    }
   },
 
   chainWebpack: (config) => {
@@ -123,11 +123,11 @@ const vueConfig = {
         modifyVars: {
           // https://ant.design/docs/spec/colors
           // https://vue.ant.design/docs/vue/customize-theme/
-          'root-entry-name': 'default',
+          'root-entry-name': 'default'
         },
-        javascriptEnabled: true,
-      },
-    },
+        javascriptEnabled: true
+      }
+    }
   },
 
   devServer: {
@@ -141,20 +141,20 @@ const vueConfig = {
         proxyTimeout: 10 * 60 * 1000, // 10 minutes
         cookieDomainRewrite: '*',
         cookiePathRewrite: {
-          '/client': '/',
-        },
-      },
+          '/client': '/'
+        }
+      }
     },
     https: process.env.HTTPS_KEY
       ? {
-          key: process.env.HTTPS_KEY ? fs.readFileSync(process.env.HTTPS_KEY) : undefined,
-          cert: process.env.HTTPS_CERT ? fs.readFileSync(process.env.HTTPS_CERT) : undefined,
-          ca: process.env.HTTPS_CA ? fs.readFileSync(process.env.HTTPS_CA) : undefined,
-          dhparam: process.env.HTTPS_DHPARAM ? fs.readFileSync(process.env.HTTPS_DHPARAM) : undefined,
-        }
+        key: process.env.HTTPS_KEY ? fs.readFileSync(process.env.HTTPS_KEY) : undefined,
+        cert: process.env.HTTPS_CERT ? fs.readFileSync(process.env.HTTPS_CERT) : undefined,
+        ca: process.env.HTTPS_CA ? fs.readFileSync(process.env.HTTPS_CA) : undefined,
+        dhparam: process.env.HTTPS_DHPARAM ? fs.readFileSync(process.env.HTTPS_DHPARAM) : undefined
+      }
       : false,
     public: process.env.PUBLIC_HOST || undefined,
-    allowedHosts: process.env.ALLOWED_HOSTS ? JSON.parse(process.env.ALLOWED_HOSTS) : undefined,
+    allowedHosts: process.env.ALLOWED_HOSTS ? JSON.parse(process.env.ALLOWED_HOSTS) : undefined
   },
 
   lintOnSave: undefined,
@@ -167,9 +167,9 @@ const vueConfig = {
       locale: 'en',
       fallbackLocale: 'en',
       localeDir: 'locales',
-      enableInSFC: true,
-    },
-  },
+      enableInSFC: true
+    }
+  }
 }
 
 vueConfig.configureWebpack.plugins.push(createThemeColorReplacerPlugin())
