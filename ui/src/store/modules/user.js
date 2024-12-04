@@ -68,7 +68,8 @@ const user = {
     twoFaProvider: '',
     twoFaIssuer: '',
     customHypervisorName: 'Custom',
-    readyForShutdownPollingJob: ''
+    readyForShutdownPollingJob: '',
+    allowSettingTheme: false
   },
 
   mutations: {

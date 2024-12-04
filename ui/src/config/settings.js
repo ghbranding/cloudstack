@@ -15,25 +15,21 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import { themeConfig } from './custom-theme'
+
 export default {
-  primaryColor: '#39A7DE', // primary color of ant design
-  navTheme: 'light', // theme for nav menu
-  layout: 'sidemenu', // nav menu position: sidemenu or topmenu
-  contentWidth: 'Fixed', // layout of content: Fluid or Fixed, only works when layout is topmenu
-  fixedHeader: true, // sticky header
-  fixSiderbar: true, // sticky siderbar
-  autoHideHeader: false, //  auto hide header
+  ...themeConfig,
+  navTheme: 'light',
+  layout: 'sidemenu',
+  contentWidth: 'Fixed',
+  fixedHeader: true,
+  fixSiderbar: true,
+  autoHideHeader: false,
   invertedMode: true,
-  multiTab: false, // enable to have tab/route history stuff
-  // vue-ls options
-  // storageOptions: {
-  //   namespace: 'primate__', // key prefix
-  //   name: 'ls', // name variable Vue.[ls] or this.[$ls],
-  //   storage: 'local' // storage name session, local, memory
-  // },
-  // vue-ls options
+  multiTab: false,
+  allowSettingTheme: false,
   storageOptions: {
-    prefix: 'primate__', // key prefix
-    drivers: ['local'] // storage name session, local, memory
+    prefix: 'primate__',
+    drivers: ['local']
   }
 }

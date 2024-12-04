@@ -66,7 +66,7 @@
           </a-drawer>
         </template>
 
-        <drawer :visible="showSetting" placement="right" v-if="isAdmin && (isDevelopmentMode || allowSettingTheme)">
+        <drawer :visible="showSetting" placement="right" v-if="isAdmin && (allowSettingTheme)">
           <template #handler>
             <a-button type="primary" size="large">
               <close-outlined v-if="showSetting" />

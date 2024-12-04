@@ -39,6 +39,7 @@ import {
 } from './utils/plugins'
 import { VueAxios } from './utils/request'
 import directives from './utils/directives'
+import { themeConfig } from '@/config/custom-theme'
 
 vueApp.use(VueAxios, router)
 vueApp.use(pollJobPlugin)
@@ -55,6 +56,10 @@ vueApp.use(extensions)
 vueApp.use(directives)
 
 fetch('config.json').then(response => response.json()).then(config => {
+  config.theme = {
+    ...config.theme,
+    ...themeConfig
+  }
   vueProps.$config = config
   let basUrl = config.apiBase
   if (config.multipleServer) {

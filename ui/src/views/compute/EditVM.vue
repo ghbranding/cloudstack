@@ -303,7 +303,7 @@ export default {
         id: networkId,
         listall: true
       }
-      api(`listNetworks`, listNetworkParams).then(json => {
+      api('listNetworks', listNetworkParams).then(json => {
         json.listnetworksresponse.network[0].service.forEach(service => {
           if (service.name === 'UserData') {
             this.userDataEnabled = true
