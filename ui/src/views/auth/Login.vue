@@ -85,7 +85,7 @@
             </template>
           </a-input-password>
         </a-form-item>
-        <a-form-item ref="domain" name="domain">
+        <!-- <a-form-item ref="domain" name="domain">
           <a-input
             size="large"
             type="text"
@@ -96,7 +96,7 @@
               <block-outlined />
             </template>
           </a-input>
-        </a-form-item>
+        </a-form-item> -->
       </a-tab-pane>
       <a-tab-pane key="saml" :disabled="idps.length === 0">
         <template #tab>
@@ -228,6 +228,7 @@ export default {
       this.server = this.$localStorage.get(SERVER_MANAGER) || this.$config.servers[0]
     }
     this.initForm()
+    this.handleDomain()
     if (store.getters.logoutFlag) {
       if (store.getters.readyForShutdownPollingJob !== '' || store.getters.readyForShutdownPollingJob !== undefined) {
         clearInterval(store.getters.readyForShutdownPollingJob)
@@ -328,12 +329,9 @@ export default {
       this.$store.commit('SET_OAUTH_PROVIDER_USED_TO_LOGIN', 'google')
     },
     handleDomain () {
-      const values = toRaw(this.form)
-      if (!values.domain) {
-        this.$store.commit('SET_DOMAIN_USED_TO_LOGIN', '/')
-      } else {
-        this.$store.commit('SET_DOMAIN_USED_TO_LOGIN', values.domain)
-      }
+      const domain = this.getDomainFromUrl()
+      this.$store.commit('SET_DOMAIN_USED_TO_LOGIN', domain)
+      this.form.domain = domain
     },
     getGitHubUrl (from) {
       const rootURl = 'https://github.com/login/oauth/authorize'
@@ -370,8 +368,6 @@ export default {
       e.preventDefault()
       if (this.state.loginBtn) return
       this.formRef.value.validate().then(() => {
-        this.state.loginBtn = true
-
         const values = toRaw(this.form)
         if (this.$config.multipleServer) {
           this.axios.defaults.baseURL = (this.server.apiHost || '') + this.server.apiBase
@@ -453,6 +449,15 @@ export default {
       const servers = this.$config.servers || []
       const serverFilter = servers.filter(ser => (ser.apiHost || '') + ser.apiBase === server)
       this.server = serverFilter[0] || {}
+    },
+    getDomainFromUrl () {
+      const hostname = window.location.hostname
+      const domain = hostname.split(':')[0]
+      if (domain === 'localhost' || /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/.test(domain)) {
+        return '/'
+      }
+      const domainName = domain.split('.')[0]
+      return domainName
     }
   }
 }
