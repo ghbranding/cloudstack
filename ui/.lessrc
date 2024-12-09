@@ -1,0 +1,6 @@
+{
+  "javascriptEnabled": true,
+  "math": "always",
+  "strictMath": false,
+  "paths": ["./src/style"]
+}

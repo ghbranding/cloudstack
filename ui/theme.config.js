@@ -61,9 +61,14 @@ const options = {
   lessUrl: 'js/less.min.js',
   indexFileName: 'index.html',
   publicPath: '.',
-  generateOnce: false
+  generateOnce: true,
+  lessOptions: {
+    javascriptEnabled: true,
+    math: 'always',
+    strictMath: false
+  }
 }
 
-const createThemeColorReplacerPlugin = () => new AntDesignThemePlugin(options)
-
-module.exports = createThemeColorReplacerPlugin
+module.exports = function createThemeColorReplacerPlugin () {
+  return new AntDesignThemePlugin(options)
+}

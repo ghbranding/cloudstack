@@ -121,11 +121,11 @@ const vueConfig = {
     loaderOptions: {
       less: {
         modifyVars: {
-          // https://ant.design/docs/spec/colors
-          // https://vue.ant.design/docs/vue/customize-theme/
           'root-entry-name': 'default'
         },
-        javascriptEnabled: true
+        javascriptEnabled: true,
+        math: 'always',
+        strictMath: false
       }
     }
   },

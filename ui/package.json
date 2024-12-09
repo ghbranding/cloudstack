@@ -26,7 +26,7 @@
   "scripts": {
     "prebuild": "./prebuild.sh",
     "start": "vue-cli-service lint --no-fix && vue-cli-service serve",
-    "serve": "vue-cli-service lint --no-fix && vue-cli-service serve",
+    "serve": "node --max-old-space-size=8192 node_modules/@vue/cli-service/bin/vue-cli-service.js lint --no-fix && node --max-old-space-size=8192 node_modules/@vue/cli-service/bin/vue-cli-service.js serve",
     "build": "vue-cli-service build",
     "postbuild": "./postbuild.sh",
     "lint": "vue-cli-service lint",
