@@ -1,47 +1,61 @@
-# index.less
-- src/styles/index.less imports all necessary rules for cloudstack
+# Estrutura de Estilos do CloudStack UI
 
-# ant .less structure node_modules/ant-design-vue/
-## main .less entry points:
+## Organização dos Arquivos
 
-1. dist/antd.less
-    - imports everthing with index.less + components.less
-2. lib/style/index.less
-    - themes/default.less
-        - color/colors'
-        - default theme @variables
-    - core/index.less
-        - includes base styles, motion rules and iconfont
+A estrutura de estilos está organizada da seguinte forma:
 
-# src/style/ explaination
+```
+ui/src/style/
+├── base/
+│   ├── fonts.less      # Importação das fontes (Google Fonts)
+│   ├── variables.less  # Variáveis CSS (cores, fontes, tamanhos)
+│   ├── reset.less      # Reset CSS básico
+│   └── global.less     # Estilos globais
+│
+├── components/
+│   └── ant-overwrite/
+│       └── input.less  # Customizações do input
+│
+├── utils/
+│   └── mixins.less     # Mixins úteis
+│
+└── main.less           # Arquivo principal de importações
+```
 
-- index.less includes ant styles, as well as all custom variables and rules
+## Arquivos e Suas Responsabilidades
 
-## folders:
+### Base
+- `fonts.less`: Importação da fonte Hanken Grotesk do Google Fonts
+- `variables.less`: Variáveis CSS para fontes, cores e tamanhos
+- `reset.less`: Reset CSS básico para normalização entre navegadores
+- `global.less`: Estilos globais e sobrescrita de componentes base
 
-1. variables
-    - include all custom variables here
-2. common
-    - include all rules that reset styles, define global stuffs without classes at all
-    - e.g. body {} p, ul, li {} h1, h2, h3 {}
-3. ant-overwrite
-    - any styles that overwrites the existin ant rules by any reason
-    - e.g. classes like .ant-layout-header .anticon {}
-4. frame
-    - everything that belongs to the frame
-    - e.g. header, footer, nav, sider, content (just the actual content frame, not every component in it)
-5. layout
-    - rules that modify the page at all if new layout class is set.
-    - e.g. #html class="layout-ant-black"#
-6. objects
-    - repeatly used elements like buttons, inputs
-7. components
-    - complex elements like dropdown, forms, table, search (usually include this to components/FooterToolbar/ folder)
+### Components
+- `ant-overwrite/`: Pasta para customizações de componentes do Ant Design
+  - `input.less`: Customizações específicas para inputs
 
+### Utils
+- `mixins.less`: Mixins LESS para reutilização de estilos
 
-# The "/deep/" combinator
-- use the /deep/ combinator (or in other versions ">>>") helps us to exclude "scoped" rules into global
-- e.g. <style scoped> .a .b .c {}</style> will scope a generated data ID like .a .b .c[data-abcde] {}
-- but  <style scoped> .a /deep/ .b .c {} </style> will scope .a[data-abcde] .b .c {}
-- so everything after deep will be outside the defined scope
-- watch this article for technical information. https://vue-loader.vuejs.org/guide/scoped-css.html#child-component-root-elements
+### Main
+- `main.less`: Arquivo principal que importa todos os outros arquivos LESS
+
+## Convenções e Boas Práticas
+
+1. Variáveis CSS
+   - Use o prefixo `--` para variáveis CSS
+   - Agrupe variáveis por tipo (fontes, cores, tamanhos)
+
+2. Componentes Ant Design
+   - Crie um arquivo separado para cada componente em `ant-overwrite/`
+   - Mantenha as customizações específicas isoladas
+
+3. Mixins
+   - Crie mixins para estilos que se repetem frequentemente
+   - Documente o propósito de cada mixin
+
+4. Importações
+   - Mantenha a ordem de importação no `main.less`:
+     1. Base (variáveis, fontes, reset, global)
+     2. Utils (mixins)
+     3. Componentes

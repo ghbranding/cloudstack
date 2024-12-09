@@ -1,0 +1,9 @@
+.generate-spacing(@n, @i: 1) when (@i =< @n) {
+  .m-@{i} {
+    margin: (@i * 4px);
+  }
+  .p-@{i} {
+    padding: (@i * 4px);
+  }
+  .generate-spacing(@n, (@i + 1));
+} 

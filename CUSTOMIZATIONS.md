@@ -10,3 +10,36 @@
 
 - File: ui/src/components/page/GlobalLayout.vue
   - Removed: theme drawer component
+
+## Styles Structure
+Reorganized the styles structure to improve maintainability:
+
+```
+ui/src/style/
+├── base/
+│   ├── fonts.less      # Google Fonts imports
+│   ├── variables.less  # CSS variables
+│   ├── reset.less      # CSS reset
+│   └── global.less     # Global styles
+├── components/
+│   └── ant-overwrite/  # Ant Design customizations
+├── utils/
+│   └── mixins.less     # LESS mixins
+└── main.less           # Main imports
+```
+
+## Font Customization
+- Added Hanken Grotesk font from Google Fonts
+- File: ui/public/index.html
+  ```html
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  ```
+
+## Input Customization
+- File: ui/src/style/components/ant-overwrite/input.less
+  - Adjusted padding to 7px 12px
+  - Set height to 40px
+  - Updated font to Hanken Grotesk
+  - Customized prefix/suffix spacing
