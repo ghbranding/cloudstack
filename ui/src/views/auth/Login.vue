@@ -465,17 +465,45 @@ export default {
 
 <style lang="less" scoped>
 .user-layout-login {
-  min-width: 260px;
-  width: 368px;
+  max-width: 264px;
   margin: 0 auto;
 
   .mobile & {
-    max-width: 368px;
+    max-width: 264px;
     width: 98%;
   }
 
   label {
     font-size: 14px;
+  }
+
+  :deep(.ant-tabs) {
+    max-width: 264px;
+
+    .ant-tabs-nav-operations {
+      display: none !important;
+    }
+
+    .ant-tabs-tab {
+      padding: 8px 4px;
+      font-size: 14px;
+
+      .anticon {
+        margin-right: 8px;
+      }
+    }
+
+    .ant-tabs-tab + .ant-tabs-tab {
+      margin-left: 16px;
+    }
+  }
+
+  :deep(.ant-form-item) {
+    max-width: 264px;
+  }
+
+  :deep(.ant-input), :deep(.ant-input-password), :deep(.ant-select) {
+    max-width: 264px;
   }
 
   button.login-button {
@@ -514,27 +542,32 @@ export default {
       width: 80px;
     }
   }
-    .center {
-     display: flex;
-     flex-direction: column;
-     justify-content: center;
-     align-items: center;
-     height: 100px;
-    }
 
-    .content {
-      margin: 10px auto;
-      width: 300px;
-    }
+  .center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+  }
 
-    .or {
-      text-align: center;
-      font-size: 16px;
-      background:
-        linear-gradient(#CCC 0 0) left,
-        linear-gradient(#CCC 0 0) right;
-      background-size: 40% 1px;
-      background-repeat: no-repeat;
-    }
+  .content {
+    margin: 10px auto;
+    width: 264px;
+  }
+
+  .or {
+    text-align: center;
+    font-size: 16px;
+    background:
+      linear-gradient(#CCC 0 0) left,
+      linear-gradient(#CCC 0 0) right;
+    background-size: 40% 1px;
+    background-repeat: no-repeat;
+  }
+
+  .auth-btn {
+    width: 264px !important;
+  }
 }
 </style>

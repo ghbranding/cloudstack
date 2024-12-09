@@ -116,7 +116,7 @@ export default {
   }
 
   &-logo {
-    border-style: none;
+    outline: none;
     margin: 0 auto 2rem;
     display: block;
 

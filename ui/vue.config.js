@@ -30,23 +30,8 @@ function resolve (dir) {
 // vue.config.js
 const vueConfig = {
   publicPath: './',
-  /*
-          Vue-cli3:
-          Crashed when using Webpack `import()` #2463
-          https://github.com/vuejs/vue-cli/issues/2463
-
-         */
-  /*
-        pages: {
-          index: {
-            entry: 'src/main.js',
-            chunks: ['chunk-vendors', 'chunk-common', 'index']
-          }
-        },
-        */
   configureWebpack: {
     plugins: [
-      // Ignore all locale files of moment.js
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
       new webpack.IgnorePlugin(/@antv\/g2/),
       new webpack.DefinePlugin({
@@ -101,20 +86,6 @@ const vueConfig = {
     svgRule.uses.clear()
 
     svgRule.use('vue-loader').loader('vue-loader').end().use('vue-svg-loader').loader('vue-svg-loader')
-
-    /* svgRule.oneOf('inline')
-                  .resourceQuery(/inline/)
-                  .use('vue-svg-loader')
-                  .loader('vue-svg-loader')
-                  .end()
-                  .end()
-                  .oneOf('external')
-                  .use('file-loader')
-                  .loader('file-loader')
-                  .options({
-                    name: 'assets/[name].[hash:8].[ext]'
-                  })
-                */
   },
 
   css: {
@@ -132,13 +103,27 @@ const vueConfig = {
 
   devServer: {
     port: 3000,
+    hot: 'only',
+    client: {
+      overlay: {
+        errors: true,
+        warnings: false
+      },
+      progress: true
+    },
+    watchFiles: {
+      paths: ['src/**/*.*'],
+      options: {
+        usePolling: true
+      }
+    },
     proxy: {
       '/client': {
         target: 'http://localhost:8080',
         secure: false,
         ws: false,
         changeOrigin: true,
-        proxyTimeout: 10 * 60 * 1000, // 10 minutes
+        proxyTimeout: 10 * 60 * 1000,
         cookieDomainRewrite: '*',
         cookiePathRewrite: {
           '/client': '/'
@@ -158,18 +143,7 @@ const vueConfig = {
   },
 
   lintOnSave: undefined,
-
-  // babel-loader no-ignore node_modules/*
-  transpileDependencies: [],
-
-  pluginOptions: {
-    i18n: {
-      locale: 'en',
-      fallbackLocale: 'en',
-      localeDir: 'locales',
-      enableInSFC: true
-    }
-  }
+  transpileDependencies: []
 }
 
 vueConfig.configureWebpack.plugins.push(createThemeColorReplacerPlugin())

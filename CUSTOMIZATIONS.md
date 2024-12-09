@@ -43,3 +43,22 @@ ui/src/style/
   - Set height to 40px
   - Updated font to Hanken Grotesk
   - Customized prefix/suffix spacing
+
+## Tabs Customization
+- File: ui/src/style/components/ant-overwrite/tabs.less
+  - Set non-active tab color to rgba(0, 0, 0, 0.85)
+
+## Login Screen Customization
+- File: ui/src/views/auth/Login.vue
+  - Set max-width to 264px for all login components
+  - Customized tabs appearance:
+    - Font size: 14px
+    - Icon spacing: 10px from text
+    - Removed overflow button
+    - Adjusted padding to 8px 4px
+    - Set margin between tabs to 16px
+
+- File: ui/public/config.json
+  - Updated banner dimensions:
+    - Width: 104px
+    - Height: 34px
