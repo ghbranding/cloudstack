@@ -103,19 +103,11 @@ const vueConfig = {
 
   devServer: {
     port: 3000,
-    hot: 'only',
-    client: {
-      overlay: {
-        errors: true,
-        warnings: false
-      },
-      progress: true
-    },
-    watchFiles: {
-      paths: ['src/**/*.*'],
-      options: {
-        usePolling: true
-      }
+    hot: true,
+    host: process.env.PUBLIC_HOST || 'localhost',
+    overlay: {
+      errors: true,
+      warnings: false
     },
     proxy: {
       '/client': {
