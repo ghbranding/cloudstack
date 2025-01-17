@@ -18,14 +18,14 @@
 <template>
   <div class="onboarding">
     <div class="head">
-      <h2>{{ $t('label.installwizard.title') }}</h2>
-      <h3>{{ $t('label.installwizard.subtitle') }}</h3>
+      <h2 v-html="$t('label.installwizard.title')"></h2>
+      <h3 v-html="$t('label.installwizard.subtitle')"></h3>
     </div>
     <div class="body">
       <div class="intro">
-        <div class="title">{{ $t('label.what.is.cloudstack') }}</div>
-        <div class="subtitle">{{ $t('label.introduction.to.cloudstack') }}</div>
-        <p>{{ $t('message.installwizard.copy.whatiscloudstack') }}</p>
+        <div class="title" v-html="$t('label.what.is.cloudstack')"></div>
+        <div class="subtitle" v-html="$t('label.introduction.to.cloudstack')"></div>
+        <p v-html="$t('message.installwizard.copy.whatiscloudstack')"></p>
         <img class="center" src="assets/bg-what-is-cloudstack.png">
         <pre>{{ $t('message.installwizard.cloudstack.helptext.header') }}</pre>
         <pre>{{ $t('message.installwizard.cloudstack.helptext.website') }}<a href="https://cloudstack.apache.org" target="_blank">https://cloudstack.apache.org</a></pre>
