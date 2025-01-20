@@ -36,7 +36,8 @@ const vueConfig = {
       new webpack.IgnorePlugin(/@antv\/g2/),
       new webpack.DefinePlugin({
         'process.env': {
-          PACKAGE_VERSION: '"' + version + '"'
+          PACKAGE_VERSION: '"' + version + '"',
+          SHOW_DOMAIN_FIELD: process.env.SHOW_DOMAIN_FIELD ? 'true' : 'false'
         }
       })
     ],
@@ -110,15 +111,16 @@ const vueConfig = {
       warnings: false
     },
     proxy: {
-      '/client': {
-        target: 'http://localhost:8080',
+      '/client/api': {
+        target: process.env.CS_URL || 'http://localhost:8080',
         secure: false,
         ws: false,
         changeOrigin: true,
-        proxyTimeout: 10 * 60 * 1000,
-        cookieDomainRewrite: '*',
-        cookiePathRewrite: {
-          '/client': '/'
+        pathRewrite: {
+          '^/client/api': '/client/api'
+        },
+        onProxyReq: (proxyReq, req, res) => {
+          proxyReq.setHeader('Host', req.headers.host)
         }
       }
     },

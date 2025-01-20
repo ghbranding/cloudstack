@@ -68,7 +68,7 @@
             v-model:value="form.username"
           >
             <template #prefix>
-              <user-outlined />
+              <user-outlined style="color: rgba(0,0,0,.25)" />
             </template>
           </a-input>
         </a-form-item>
@@ -81,11 +81,11 @@
             v-model:value="form.password"
           >
             <template #prefix>
-              <lock-outlined />
+              <lock-outlined style="color: rgba(0,0,0,.25)" />
             </template>
           </a-input-password>
         </a-form-item>
-        <!-- <a-form-item ref="domain" name="domain">
+        <a-form-item v-if="showDomainField" ref="domain" name="domain">
           <a-input
             size="large"
             type="text"
@@ -93,10 +93,10 @@
             v-model:value="form.domain"
           >
             <template #prefix>
-              <block-outlined />
+              <block-outlined style="color: rgba(0,0,0,.25)" />
             </template>
           </a-input>
-        </a-form-item> -->
+        </a-form-item>
       </a-tab-pane>
       <a-tab-pane key="saml" :disabled="idps.length === 0">
         <template #tab>
@@ -193,10 +193,17 @@ import { mapActions } from 'vuex'
 import { sourceToken } from '@/utils/request'
 import { SERVER_MANAGER } from '@/store/mutation-types'
 import TranslationMenu from '@/components/header/TranslationMenu'
+import { BlockOutlined, UserOutlined, LockOutlined, SafetyOutlined, DatabaseOutlined, AuditOutlined } from '@ant-design/icons-vue'
 
 export default {
   components: {
-    TranslationMenu
+    TranslationMenu,
+    BlockOutlined,
+    UserOutlined,
+    LockOutlined,
+    SafetyOutlined,
+    DatabaseOutlined,
+    AuditOutlined
   },
   data () {
     return {
@@ -221,6 +228,11 @@ export default {
         loginType: 0
       },
       server: ''
+    }
+  },
+  computed: {
+    showDomainField () {
+      return process.env.VUE_APP_SHOW_DOMAIN_FIELD === 'true'
     }
   },
   created () {
