@@ -37,7 +37,8 @@ const vueConfig = {
       new webpack.DefinePlugin({
         'process.env': {
           PACKAGE_VERSION: '"' + version + '"',
-          SHOW_DOMAIN_FIELD: process.env.SHOW_DOMAIN_FIELD ? 'true' : 'false'
+          SHOW_DOMAIN_FIELD: process.env.SHOW_DOMAIN_FIELD ? 'true' : 'false',
+          SHOW_SSO_TAB: process.env.SHOW_SSO_TAB ? 'true' : 'false'
         }
       })
     ],

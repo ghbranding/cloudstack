@@ -98,7 +98,7 @@
           </a-input>
         </a-form-item>
       </a-tab-pane>
-      <a-tab-pane key="saml" :disabled="idps.length === 0">
+      <a-tab-pane key="saml" :disabled="idps.length === 0" v-if="showSsoTab">
         <template #tab>
           <span>
             <audit-outlined />
@@ -233,6 +233,9 @@ export default {
   computed: {
     showDomainField () {
       return process.env.VUE_APP_SHOW_DOMAIN_FIELD === 'true'
+    },
+    showSsoTab () {
+      return process.env.VUE_APP_SHOW_SSO_TAB === 'true'
     }
   },
   created () {
